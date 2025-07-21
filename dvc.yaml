@@ -1,0 +1,10 @@
+stages:
+  train_model:
+    cmd: python train.py
+    deps:
+    - data/iris.csv
+    - train.py
+    outs:
+    - model.pkl
+    metrics:
+    - metrics.json

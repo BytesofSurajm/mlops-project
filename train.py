@@ -1,45 +1,37 @@
-# train.py — Train a RandomForest model and log with MLflow
+# train.py
 
 import pandas as pd
-import mlflow
-import mlflow.sklearn
+import json
+import joblib
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import LabelEncoder
-from mlflow.models.signature import infer_signature
+from sklearn.metrics import accuracy_score
 
-# Load the dataset from DVC-tracked file
+# Load dataset
 df = pd.read_csv("data/iris.csv")
 
-# Encode species as numeric values
-le = LabelEncoder()
-df["species"] = le.fit_transform(df["species"])
+# Drop rows with missing values
+df.dropna(inplace=True)
 
-# Split into features and labels
+# Split features and target
 X = df.drop("species", axis=1)
 y = df["species"]
 
 # Train-test split
-X_train, X_test, y_train, y_test = train_test_split(X, y)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
 
-# Train the model
-model = RandomForestClassifier()
-model.fit(X_train, y_train)
+# Train a RandomForest classifier
+clf = RandomForestClassifier(n_estimators=100, max_depth=3, random_state=42)
+clf.fit(X_train, y_train)
 
-# Evaluate accuracy
-accuracy = model.score(X_test, y_test)
+# Evaluate model
+y_pred = clf.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
 print(f"Accuracy: {accuracy:.2f}")
 
-# Create example and model signature for MLflow UI
-input_example = X_train.iloc[:1]
-signature = infer_signature(X_train, model.predict(X_train))
+# Save the model
+joblib.dump(clf, "model.pkl")
 
-# Start MLflow logging
-with mlflow.start_run():
-    mlflow.log_metric("accuracy", accuracy)
-    mlflow.sklearn.log_model(
-        sk_model=model,
-        name="iris_classifier",
-        input_example=input_example,
-        signature=signature
-    )
+# Save the metrics
+with open("metrics.json", "w") as f:
+    json.dump({"accuracy": accuracy}, f)

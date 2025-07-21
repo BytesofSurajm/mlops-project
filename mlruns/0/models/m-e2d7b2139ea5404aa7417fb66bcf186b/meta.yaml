@@ -1,0 +1,11 @@
+artifact_location: file:///C:/Users/skc/mlops_project/mlruns/0/models/m-e2d7b2139ea5404aa7417fb66bcf186b/artifacts
+creation_timestamp: 1753084934281
+experiment_id: '0'
+last_updated_timestamp: 1753084934281
+lifecycle_stage: active
+model_id: m-e2d7b2139ea5404aa7417fb66bcf186b
+model_type: null
+name: iris_classifier
+source_run_id: e81e3ba304114f9ea7eec8129aa9fbf2
+status: 1
+status_message: null

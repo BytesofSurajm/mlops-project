@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/skc/mlops_project/mlruns/0/45fab25688b14d288a78e52ffcaba61d/artifacts
+end_time: 1753086209785
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 45fab25688b14d288a78e52ffcaba61d
+run_name: industrious-ant-979
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1753086201436
+status: 3
+tags: []
+user_id: skc
